@@ -107,13 +107,6 @@ For protected routes, include the JWT token in the request header:
 Authorization: Bearer <your_jwt_token>
 ```
 
-## 🧪 Testing
-
-Run the test suite:
-```bash
-go test ./tests/...
-```
-
 ## 📦 Postman Collection
 
 Import the provided Postman collection for API testing:
