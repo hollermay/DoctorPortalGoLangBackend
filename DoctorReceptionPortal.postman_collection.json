@@ -1,0 +1,155 @@
+{
+    "info": {
+        "name": "Doctor Reception Portal API",
+        "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+        {
+            "name": "Login",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"username\": \"admin\",\n    \"password\": \"admin\"\n}"
+                },
+                "url": {
+                    "raw": "http://localhost:8080/login",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "login"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "Create Patient",
+            "request": {
+                "method": "POST",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"name\": \"John Doe\",\n    \"age\": 30,\n    \"disease\": \"Flu\"\n}"
+                },
+                "url": {
+                    "raw": "http://localhost:8080/api/patients",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "api",
+                        "patients"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "Get All Patients",
+            "request": {
+                "method": "GET",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}"
+                    }
+                ],
+                "url": {
+                    "raw": "http://localhost:8080/api/patients",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "api",
+                        "patients"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "Update Patient",
+            "request": {
+                "method": "PUT",
+                "header": [
+                    {
+                        "key": "Content-Type",
+                        "value": "application/json"
+                    },
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}"
+                    }
+                ],
+                "body": {
+                    "mode": "raw",
+                    "raw": "{\n    \"name\": \"John Updated\",\n    \"age\": 31,\n    \"disease\": \"Recovered\"\n}"
+                },
+                "url": {
+                    "raw": "http://localhost:8080/api/patients/1",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "api",
+                        "patients",
+                        "1"
+                    ]
+                }
+            }
+        },
+        {
+            "name": "Delete Patient",
+            "request": {
+                "method": "DELETE",
+                "header": [
+                    {
+                        "key": "Authorization",
+                        "value": "Bearer {{token}}"
+                    }
+                ],
+                "url": {
+                    "raw": "http://localhost:8080/api/patients/1",
+                    "protocol": "http",
+                    "host": [
+                        "localhost"
+                    ],
+                    "port": "8080",
+                    "path": [
+                        "api",
+                        "patients",
+                        "1"
+                    ]
+                }
+            }
+        }
+    ],
+    "variable": [
+        {
+            "key": "token",
+            "value": ""
+        }
+    ]
+}
