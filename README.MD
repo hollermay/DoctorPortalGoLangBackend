@@ -1,140 +1,223 @@
-# 🏥 Doctor-Reception Portal
+# Doctor Portal - GoLang Backend with React Frontend
 
-A web application built with **Golang (Gin)** and **PostgreSQL** for managing patient records with role-based access control.
+A comprehensive healthcare management system built with Go (Gin) backend and React TypeScript frontend.
 
 ## Features
 
-- **Role-based Authentication**
-  - Receptionist: Full CRUD operations on patient records
-  - Doctor: View and update patient information
-- JWT-based authentication
-- Unit tests
-- Postman documentation
-- Clean architecture
-- Role-based access control
+- **Patient Management**: Add, view, and manage patient records
+- **Appointment Scheduling**: Book and manage appointments with time-based filtering
+- **Doctor Profiles**: View doctor specializations and availability
+- **Medical Records**: Create and manage patient medical records
+- **Role-based Access Control**: Different permissions for admin, doctors, receptionists, and patients
+- **Modern UI**: Beautiful, responsive dashboard with dark theme
 
-## 📁 Project Structure
+## Tech Stack
 
-```
-reception-doctor-portal/
-├── cmd/
-│   └── main.go                 # Application entry point
-├── config/
-│   └── db.go                   # Database configuration
-├── controllers/
-│   ├── auth_controller.go      # Authentication handlers
-│   └── patient_controller.go   # Patient management handlers
-├── middleware/
-│   └── auth.go                 # JWT authentication middleware
-├── models/
-│   ├── user.go                 # User model
-│   └── patient.go              # Patient model
-├── routes/
-│   └── routes.go               # API routes
-├── utils/
-│   └── jwt.go                  # JWT utilities
-├── tests/
-│   └── unit_test.go            # Unit tests
-├── go.mod                      # Go module file
-├── go.sum                      # Dependency checksums
-├── .env                        # Environment variables
-└── README.md                   # Documentation
-```
+### Backend
+- **Go** with **Gin** framework
+- **GORM** for database ORM
+- **PostgreSQL** database
+- **JWT** for authentication
+- **CORS** middleware for frontend integration
 
-## 🚀 Getting Started
+### Frontend
+- **React** with **TypeScript**
+- **Vite** for build tooling
+- **React Router** for navigation
+- **React Icons** for UI icons
+
+## Setup Instructions
 
 ### Prerequisites
-
 - Go 1.21 or higher
-- PostgreSQL 12 or higher
-- Git
+- Node.js 16 or higher
+- PostgreSQL database
 
-### Installation
+### Backend Setup
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/reception-doctor-portal.git
-   cd reception-doctor-portal
+   git clone <repository-url>
+   cd DoctorPortalGoLangBackend
    ```
 
-2. **Configure environment variables**
+2. **Set up environment variables**
    Create a `.env` file in the root directory:
    ```env
+   DB_URL=postgres://username:password@localhost:5432/doctor_portal
    PORT=8080
-   DB_URL=postgres://myuser:mypassword@localhost:5432/doctor_portal
-   JWT_SECRET=your_secret_key
+   JWT_SECRET=your-secret-key
    ```
 
-3. **Install dependencies**
+3. **Install Go dependencies**
    ```bash
    go mod tidy
    ```
 
-4. **Set up the database**
-   ```sql
-   CREATE DATABASE doctor_portal;
-   CREATE USER myuser WITH PASSWORD 'mypassword';
-   GRANT ALL PRIVILEGES ON DATABASE doctor_portal TO myuser;
-   ```
-
-5. **Run the application**
+4. **Run database migrations and seed data**
    ```bash
    go run cmd/main.go
    ```
-   The application will be available at `http://localhost:8080`
+   This will automatically create the admin user and other test users.
 
-## 📚 API Documentation
+5. **Run the seed script (optional - for additional test data)**
+   ```bash
+   go run cmd/seed.go
+   ```
+
+6. **Start the backend server**
+   ```bash
+   go run cmd/main.go
+   ```
+   The server will start on `http://localhost:8080`
+
+### Frontend Setup
+
+1. **Navigate to frontend directory**
+   ```bash
+   cd frontend
+   ```
+
+2. **Install dependencies**
+   ```bash
+   npm install
+   ```
+
+3. **Start the development server**
+   ```bash
+   npm run dev
+   ```
+   The frontend will start on `http://localhost:5173`
+
+## Login Credentials
+
+The system comes with pre-configured users for testing:
+
+### Admin User
+- **Username**: `admin`
+- **Password**: `admin123`
+- **Role**: Full system access
+
+### Receptionist Users
+- **Username**: `receptionist1` or `receptionist2`
+- **Password**: `receptionist123`
+- **Role**: Can manage patients, appointments, and view records
+
+### Doctor Users
+- **Username**: `doctor1` or `doctor2`
+- **Password**: `doctor123`
+- **Role**: Can view patients, manage appointments, and create medical records
+
+### Patient Users
+- **Username**: `patient1` or `patient2`
+- **Password**: `patient123`
+- **Role**: Can view their own appointments and medical records
+
+## API Endpoints
 
 ### Authentication
+- `POST /login` - User login
 
-| Method | Endpoint | Description | Auth Required |
-|--------|----------|-------------|---------------|
-| POST   | /login   | User login  | No           |
+### Protected Routes (require JWT token)
+- `GET /api/patients` - Get all patients
+- `POST /api/patients` - Create new patient (receptionist only)
+- `PUT /api/patients/:id` - Update patient
+- `DELETE /api/patients/:id` - Delete patient
 
-### Patient Management
+- `GET /api/appointments` - Get appointments
+- `POST /api/appointments` - Create appointment
+- `PUT /api/appointments/:id` - Update appointment
+- `DELETE /api/appointments/:id` - Delete appointment
 
-| Method | Endpoint           | Description        | Required Role |
-|--------|-------------------|-------------------|---------------|
-| GET    | /api/patients     | List all patients | All           |
-| POST   | /api/patients     | Create patient    | Receptionist  |
-| PUT    | /api/patients/:id | Update patient    | All           |
-| DELETE | /api/patients/:id | Delete patient    | Receptionist  |
+- `GET /api/medical-records` - Get medical records
+- `POST /api/medical-records` - Create medical record (doctor only)
+- `PUT /api/medical-records/:id` - Update medical record (doctor only)
+- `DELETE /api/medical-records/:id` - Delete medical record (doctor only)
 
-### Authentication Headers
+- `GET /api/doctor-profiles` - Get doctor profiles
+- `POST /api/doctor-profiles` - Create/update doctor profile (doctor only)
 
-For protected routes, include the JWT token in the request header:
-```
-Authorization: Bearer <your_jwt_token>
-```
+## Dashboard Features
 
-## 🧪 Testing
+### Overview Tab
+- Quick statistics and navigation cards
+- Real-time counts of patients, appointments, doctors, and records
 
-Run the test suite:
-```bash
-go test ./tests/...
-```
+### Patients Tab
+- View all patient records in a grid layout
+- Add new patients (receptionist/admin only)
+- Patient information includes name, age, gender, contact details, and disease
 
-## 📦 Postman Collection
+### Appointments Tab
+- View all appointments with search functionality
+- Filter appointments by time (Today, Upcoming, Past, All)
+- Book new appointments with patient and doctor selection
+- Appointment status tracking (Scheduled, Completed, Cancelled)
 
-Import the provided Postman collection for API testing:
-- `DoctorReceptionPortalDocs.postman_collection.json`
+### Doctors Tab
+- View doctor profiles and specializations
+- Doctor availability information
 
-## 🔑 Default User
+### Medical Records Tab
+- View all medical records
+- Add new medical records (doctors only)
+- Record details include patient info, diagnosis, prescriptions, and lab results
 
-```sql
-INSERT INTO users (username, password, role)
-VALUES ('admin', 'admin', 'receptionist');
-```
+## Role-based Permissions
 
-## 🛠️ Future Enhancements
+### Admin
+- Full access to all features
+- Can manage all users and data
 
-- [ ] Swagger API documentation
-- [ ] User registration API
-- [ ] Patient search and filtering
-- [ ] Docker containerization
-- [ ] CI/CD pipeline
+### Receptionist
+- Can create and manage patients
+- Can book and manage appointments
+- Can view all records
 
+### Doctor
+- Can view patients and appointments
+- Can create and manage medical records
+- Can update their own profile
 
-## 📄 License
+### Patient
+- Can view their own appointments
+- Can view their own medical records
+- Limited access to other features
 
-This project is licensed under the MIT License - see the LICENSE file for details.
+## Development
+
+### Backend Development
+- The backend uses Gin framework with GORM for database operations
+- JWT middleware handles authentication
+- CORS is configured for frontend integration
+- All models are auto-migrated on startup
+
+### Frontend Development
+- React with TypeScript for type safety
+- Modern CSS-in-JS styling
+- Responsive design with mobile support
+- Real-time data fetching from API
+
+## Security Notes
+
+⚠️ **Important**: This is a development setup. For production:
+
+1. Use environment variables for sensitive data
+2. Implement proper password hashing (bcrypt)
+3. Use HTTPS
+4. Implement rate limiting
+5. Add input validation and sanitization
+6. Use a proper JWT secret key
+7. Implement proper error handling
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## License
+
+This project is licensed under the MIT License.
