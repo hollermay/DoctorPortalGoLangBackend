@@ -1,14 +1,48 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <link rel="icon" type="image/svg+xml" href="/hospital-icon.svg" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Monash Health Portal</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
-  </body>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Doctor Reception Portal - Frontend</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="app">
+    <header>
+      <h1>Doctor Reception Portal</h1>
+      <nav id="nav" class="hidden">
+        <button id="nav-patients">Patients</button>
+        <button id="nav-appointments">Appointments</button>
+        <button id="nav-medical-records">Medical Records</button>
+        <button id="nav-doctors">Doctor Profiles</button>
+        <button id="logout">Logout</button>
+      </nav>
+    </header>
+
+    <main>
+      <section id="login-section">
+        <h2>Login</h2>
+        <form id="login-form">
+          <label>Username<br/><input name="username" required /></label>
+          <label>Password<br/><input name="password" type="password" required /></label>
+          <label>Role (optional)<br/><input name="role" placeholder="receptionist/doctor/patient/admin" /></label>
+          <button type="submit">Login</button>
+        </form>
+        <div id="login-message" class="message"></div>
+      </section>
+
+      <section id="content" class="hidden">
+        <div id="patients" class="panel hidden"></div>
+        <div id="appointments" class="panel hidden"></div>
+        <div id="medical-records" class="panel hidden"></div>
+        <div id="doctor-profiles" class="panel hidden"></div>
+      </section>
+    </main>
+
+    <footer>
+      <small>Frontend built to demo API integration. Configure backend base URL in app.js</small>
+    </footer>
+  </div>
+  <script src="app.js"></script>
+</body>
 </html>
